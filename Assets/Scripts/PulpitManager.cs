@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PulpitManager : MonoBehaviour
 {
+    [Header("Pulpit Settings")]
     [SerializeField] private GameObject pulpitPrefab;
     [SerializeField] private float pulpitSize = 9f;
 
@@ -16,12 +17,38 @@ public class PulpitManager : MonoBehaviour
 
     private Coroutine spawnCoroutine;
 
+    private bool isInitialized;
+
     public void Initialize(GameConfig gameConfig)
     {
+        if (isInitialized)
+        {
+            Debug.LogWarning("PulpitManager is already initialized.");
+            return;
+        }
+
+        if (gameConfig == null)
+        {
+            Debug.LogError("PulpitManager received a null GameConfig.");
+            return;
+        }
+
+        if (pulpitPrefab == null)
+        {
+            Debug.LogError("Pulpit prefab is not assigned.");
+            return;
+        }
+
         config = gameConfig;
 
+        isInitialized = true;
+
+        Debug.Log("PulpitManager initialized.");
+
+        // Create first Pulpit
         SpawnInitialPulpit();
 
+        // Start spawning
         spawnCoroutine = StartCoroutine(SpawnRoutine());
     }
 
@@ -31,7 +58,11 @@ public class PulpitManager : MonoBehaviour
 
         Pulpit pulpit = CreatePulpit(spawnPosition);
 
+        if (pulpit == null)
+            return;
+
         currentPulpit = pulpit;
+
         activePulpits.Add(pulpit);
     }
 
@@ -45,7 +76,7 @@ public class PulpitManager : MonoBehaviour
 
             CleanupDestroyedPulpits();
 
-            // Only two Pulpits are allowed.
+            // Only two Pulpits can exist simultaneously.
             if (activePulpits.Count >= 2)
                 continue;
 
@@ -56,12 +87,24 @@ public class PulpitManager : MonoBehaviour
     private void SpawnNextPulpit()
     {
         if (currentPulpit == null)
+        {
+            Debug.LogWarning(
+                "Cannot spawn next Pulpit because current Pulpit is null."
+            );
+
             return;
+        }
 
         Vector3 spawnPosition =
-            GetAdjacentPosition(currentPulpit.transform.position);
+            GetAdjacentPosition(
+                currentPulpit.transform.position
+            );
 
-        Pulpit newPulpit = CreatePulpit(spawnPosition);
+        Pulpit newPulpit =
+            CreatePulpit(spawnPosition);
+
+        if (newPulpit == null)
+            return;
 
         activePulpits.Add(newPulpit);
 
@@ -70,11 +113,12 @@ public class PulpitManager : MonoBehaviour
 
     private Pulpit CreatePulpit(Vector3 position)
     {
-        GameObject pulpitObject = Instantiate(
-            pulpitPrefab,
-            position,
-            Quaternion.identity
-        );
+        GameObject pulpitObject =
+            Instantiate(
+                pulpitPrefab,
+                position,
+                Quaternion.identity
+            );
 
         Pulpit pulpit =
             pulpitObject.GetComponent<Pulpit>();
@@ -85,6 +129,8 @@ public class PulpitManager : MonoBehaviour
                 "Pulpit prefab does not have a Pulpit component."
             );
 
+            Destroy(pulpitObject);
+
             return null;
         }
 
@@ -94,6 +140,13 @@ public class PulpitManager : MonoBehaviour
         );
 
         pulpit.Initialize(lifetime);
+
+        Debug.Log(
+            "Pulpit spawned at " +
+            position +
+            " with lifetime: " +
+            lifetime
+        );
 
         return pulpit;
     }
@@ -109,7 +162,6 @@ public class PulpitManager : MonoBehaviour
             Vector3.right
         };
 
-        // Randomize direction.
         int randomIndex =
             Random.Range(0, directions.Length);
 
@@ -132,7 +184,10 @@ public class PulpitManager : MonoBehaviour
         if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);
+
             spawnCoroutine = null;
         }
+
+        Debug.Log("Pulpit spawning stopped.");
     }
 }

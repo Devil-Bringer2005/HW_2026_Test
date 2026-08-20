@@ -5,36 +5,38 @@ public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreText;
 
-    [SerializeField] private float scoreInterval = 1f;
-
     private int score;
-    private float timer;
 
     public void Initialize()
     {
         score = 0;
-        timer = 0f;
+
+        Debug.Log("ScoreManager.Initialize()");
+
         UpdateScoreUI();
     }
 
-    private void Update()
+    public void PulpitCompleted()
     {
-        timer += Time.deltaTime;
+        score++;
 
-        if (timer >= scoreInterval)
-        {
-            timer -= scoreInterval;
+        Debug.Log("SCORE = " + score);
 
-            score++;
-            UpdateScoreUI();
-        }
+        UpdateScoreUI();
     }
 
     private void UpdateScoreUI()
     {
-        if (scoreText != null)
+        if (scoreText == null)
         {
-            scoreText.text = "Score: " + score;
+            Debug.LogError("scoreText is NULL!");
+            return;
         }
+
+        scoreText.text = "Score: " + score;
+
+        Debug.Log(
+            "UI UPDATED: " + scoreText.text
+        );
     }
 }
