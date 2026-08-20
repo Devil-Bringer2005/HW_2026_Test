@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,13 +10,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PulpitManager pulpitManager;
     [SerializeField] private ScoreManager scoreManager;
 
+    [Header("Game Over UI")]
+    [SerializeField] private GameObject gameOverPanel;
+
     private GameConfig gameConfig;
+    private bool isGameOver;
 
     public GameConfig Config => gameConfig;
 
     private void Awake()
     {
-        // Singleton
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -27,7 +31,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+
         LoadGameConfig();
+
+        if (gameConfig == null)
+            return;
+
         InitializeGame();
     }
 
@@ -38,111 +49,85 @@ public class GameManager : MonoBehaviour
 
         if (jsonFile == null)
         {
-            Debug.LogError(
-                "doofus_diary.json could not be found!"
-            );
-
+            Debug.LogError("doofus_diary.json could not be found!");
             return;
         }
-
-        Debug.Log("JSON FOUND!");
-        Debug.Log("JSON Content: " + jsonFile.text);
 
         gameConfig =
             JsonUtility.FromJson<GameConfig>(jsonFile.text);
 
         if (gameConfig == null)
         {
-            Debug.LogError(
-                "Failed to parse doofus_diary.json!"
-            );
-
+            Debug.LogError("Failed to parse doofus_diary.json!");
             return;
         }
 
         Debug.Log("JSON LOADED SUCCESSFULLY!");
-
-        Debug.Log(
-            "Player Speed: " +
-            gameConfig.player_data.speed
-        );
-
-        Debug.Log(
-            "Min Pulpit Destroy Time: " +
-            gameConfig.pulpit_data.min_pulpit_destroy_time
-        );
-
-        Debug.Log(
-            "Max Pulpit Destroy Time: " +
-            gameConfig.pulpit_data.max_pulpit_destroy_time
-        );
-
-        Debug.Log(
-            "Pulpit Spawn Time: " +
-            gameConfig.pulpit_data.pulpit_spawn_time
-        );
+        Debug.Log("Player Speed: " + gameConfig.player_data.speed);
+        Debug.Log("Min Pulpit Destroy Time: " +
+                  gameConfig.pulpit_data.min_pulpit_destroy_time);
+        Debug.Log("Max Pulpit Destroy Time: " +
+                  gameConfig.pulpit_data.max_pulpit_destroy_time);
+        Debug.Log("Pulpit Spawn Time: " +
+                  gameConfig.pulpit_data.pulpit_spawn_time);
     }
 
     private void InitializeGame()
     {
-        if (gameConfig == null)
-        {
-            Debug.LogError(
-                "Game cannot start because JSON failed to load."
-            );
-
-            return;
-        }
-
         if (player == null)
         {
-            Debug.LogError(
-                "PlayerController reference is missing!"
-            );
-
+            Debug.LogError("PlayerController reference is missing!");
             return;
         }
 
         if (pulpitManager == null)
         {
-            Debug.LogError(
-                "PulpitManager reference is missing!"
-            );
-
+            Debug.LogError("PulpitManager reference is missing!");
             return;
         }
 
-        // Initialize player using speed from JSON
-        player.Initialize(
-            gameConfig.player_data.speed
-        );
-
-        // Initialize pulpit system using JSON
-        pulpitManager.Initialize(
-            gameConfig
-        );
-
-        // Initialize score system
         if (scoreManager != null)
-        {
             scoreManager.Initialize();
-        }
+
+        player.Initialize(gameConfig.player_data.speed);
+
+        pulpitManager.Initialize(gameConfig);
 
         Debug.Log("Game initialized successfully!");
     }
 
     public void GameOver()
     {
+        if (isGameOver)
+            return;
+
+        isGameOver = true;
+
         Debug.Log("GAME OVER");
 
+        // Stop player
         if (player != null)
-        {
             player.enabled = false;
-        }
 
+        // Stop pulpit spawning
         if (pulpitManager != null)
-        {
             pulpitManager.StopSpawning();
-        }
+
+        // Show Game Over UI
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+
+        // Stop the game
+        Time.timeScale = 0f;
+    }
+
+    public void Retry()
+    {
+        // Reset time before loading the scene
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }

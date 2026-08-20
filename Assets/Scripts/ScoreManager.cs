@@ -1,20 +1,40 @@
 using UnityEngine;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int score;
+    [SerializeField] private TMP_Text scoreText;
 
-    public int Score => score;
+    [SerializeField] private float scoreInterval = 1f;
+
+    private int score;
+    private float timer;
 
     public void Initialize()
     {
         score = 0;
+        timer = 0f;
+        UpdateScoreUI();
     }
 
-    public void AddScore()
+    private void Update()
     {
-        score++;
+        timer += Time.deltaTime;
 
-        Debug.Log("Score: " + score);
+        if (timer >= scoreInterval)
+        {
+            timer -= scoreInterval;
+
+            score++;
+            UpdateScoreUI();
+        }
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
     }
 }
