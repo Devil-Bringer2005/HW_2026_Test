@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-
-        // Make sure time is running when scene loads
         Time.timeScale = 1f;
     }
 
@@ -53,7 +51,7 @@ public class GameManager : MonoBehaviour
         if (gameConfig == null)
             return;
 
-        // Hide player before Start is clicked
+        // Hide player 
         if (player != null)
             player.gameObject.SetActive(false);
 
@@ -76,9 +74,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("JSON FOUND!");
-        Debug.Log("JSON Content: " + jsonFile.text);
-
         gameConfig =
             JsonUtility.FromJson<GameConfig>(jsonFile.text);
 
@@ -91,27 +86,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("JSON LOADED SUCCESSFULLY!");
-
-        Debug.Log(
-            "Player Speed: " +
-            gameConfig.player_data.speed
-        );
-
-        Debug.Log(
-            "Min Pulpit Destroy Time: " +
-            gameConfig.pulpit_data.min_pulpit_destroy_time
-        );
-
-        Debug.Log(
-            "Max Pulpit Destroy Time: " +
-            gameConfig.pulpit_data.max_pulpit_destroy_time
-        );
-
-        Debug.Log(
-            "Pulpit Spawn Time: " +
-            gameConfig.pulpit_data.pulpit_spawn_time
-        );
+        //Debug.Log("JSON LOADED SUCCESSFULLY!");
     }
 
     // Called by the START button
@@ -122,19 +97,16 @@ public class GameManager : MonoBehaviour
 
         if (gameConfig == null)
         {
-            Debug.LogError("Cannot start game because GameConfig is missing.");
+            Debug.LogError("GameConfig is missing.");
             return;
         }
 
         gameStarted = true;
 
-        Debug.Log("GAME STARTED!");
-
-        // Hide start screen
         if (startPanel != null)
             startPanel.SetActive(false);
 
-        // Spawn player at (0, 2, 0)
+        // Spawn player
         if (player != null)
         {
             player.transform.position = new Vector3(0f, 2f, 0f);
@@ -148,14 +120,12 @@ public class GameManager : MonoBehaviour
             player.enabled = true;
         }
 
-        // Start Pulpit Manager
         if (pulpitManager != null)
         {
             pulpitManager.enabled = true;
             pulpitManager.Initialize(gameConfig);
         }
 
-        // Start score
         if (scoreManager != null)
         {
             scoreManager.Initialize();
@@ -170,7 +140,7 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         gameStarted = false;
 
-        Debug.Log("GAME OVER");
+        //Debug.Log("GAME OVER");
 
         // Hide player
         if (player != null)
@@ -191,7 +161,6 @@ public class GameManager : MonoBehaviour
             gameOverPanel.SetActive(true);
         }
 
-        // Pause game
         Time.timeScale = 0f;
     }
     public void AddPulpitScore()
@@ -209,7 +178,6 @@ public class GameManager : MonoBehaviour
     {
         // Reset time
         Time.timeScale = 1f;
-
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );

@@ -23,19 +23,19 @@ public class PulpitManager : MonoBehaviour
     {
         if (isInitialized)
         {
-            Debug.LogWarning("PulpitManager is already initialized.");
+            //Debug.LogWarning("PulpitManager is already initialized.");
             return;
         }
 
         if (gameConfig == null)
         {
-            Debug.LogError("PulpitManager received a null GameConfig.");
+            //Debug.LogError("PulpitManager received a null GameConfig.");
             return;
         }
 
         if (pulpitPrefab == null)
         {
-            Debug.LogError("Pulpit prefab is not assigned.");
+            //Debug.LogError("Pulpit prefab is not assigned.");
             return;
         }
 
@@ -43,7 +43,7 @@ public class PulpitManager : MonoBehaviour
 
         isInitialized = true;
 
-        Debug.Log("PulpitManager initialized.");
+        
 
         // Create first Pulpit
         SpawnInitialPulpit();
@@ -88,26 +88,18 @@ public class PulpitManager : MonoBehaviour
     {
         if (currentPulpit == null)
         {
-            Debug.LogWarning(
-                "Cannot spawn next Pulpit because current Pulpit is null."
-            );
+            //Debug.LogWarning("Cannot spawn next Pulpit because current Pulpit is null.");
 
             return;
         }
 
-        Vector3 spawnPosition =
-            GetAdjacentPosition(
-                currentPulpit.transform.position
-            );
-
-        Pulpit newPulpit =
-            CreatePulpit(spawnPosition);
-
+        Vector3 spawnPosition = GetAdjacentPosition(currentPulpit.transform.position);
+        Pulpit newPulpit = CreatePulpit(spawnPosition);
+        
         if (newPulpit == null)
             return;
 
         activePulpits.Add(newPulpit);
-
         currentPulpit = newPulpit;
     }
 
@@ -141,12 +133,12 @@ public class PulpitManager : MonoBehaviour
 
         pulpit.Initialize(lifetime);
 
-        Debug.Log(
-            "Pulpit spawned at " +
-            position +
-            " with lifetime: " +
-            lifetime
-        );
+        //Debug.Log(
+        //    "Pulpit spawned at " +
+        //    position +
+        //    " with lifetime: " +
+        //    lifetime
+        //);
 
         return pulpit;
     }
@@ -188,6 +180,6 @@ public class PulpitManager : MonoBehaviour
             spawnCoroutine = null;
         }
 
-        Debug.Log("Pulpit spawning stopped.");
+        //Debug.Log("Pulpit spawning stopped.");
     }
 }

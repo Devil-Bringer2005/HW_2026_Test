@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     {
         moveSpeed = speed;
 
-        Debug.Log("Player speed from JSON: " + moveSpeed);
+        //Debug.Log("Player speed from JSON: " + moveSpeed);
     }
 
     private void Update()

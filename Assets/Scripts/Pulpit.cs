@@ -16,11 +16,11 @@ public class Pulpit : MonoBehaviour
 
         UpdateTimerText();
 
-        Debug.Log(
-            gameObject.name +
-            " initialized. Lifetime = " +
-            destroyTime
-        );
+        //Debug.Log(
+        //    gameObject.name +
+        //    " initialized. Lifetime = " +
+        //    destroyTime
+        //);
     }
 
     private void Update()
@@ -51,28 +51,18 @@ public class Pulpit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(
-            "PULPIT COLLISION WITH: " +
-            collision.gameObject.name +
-            " | TAG: " +
-            collision.gameObject.tag
-        );
-
         if (!collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Collision object is NOT Player.");
+            Debug.LogError("Collision object is NOT Player.");
             return;
         }
 
         if (playerHasEntered)
         {
-            Debug.Log("Player already counted for this Pulpit.");
             return;
         }
 
         playerHasEntered = true;
-
-        Debug.Log("PLAYER ENTERED PULPIT!");
 
         // Directly find ScoreManager
         ScoreManager scoreManager =
@@ -84,11 +74,7 @@ public class Pulpit : MonoBehaviour
             return;
         }
 
-        Debug.Log("ScoreManager found: " + scoreManager.gameObject.name);
-
         scoreManager.PulpitCompleted();
-
-        Debug.Log("PulpitCompleted() CALLED!");
     }
 
     private void DestroyPulpit()

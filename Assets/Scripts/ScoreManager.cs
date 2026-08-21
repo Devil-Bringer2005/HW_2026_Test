@@ -10,33 +10,22 @@ public class ScoreManager : MonoBehaviour
     public void Initialize()
     {
         score = 0;
-
-        Debug.Log("ScoreManager.Initialize()");
-
         UpdateScoreUI();
     }
 
     public void PulpitCompleted()
     {
         score++;
-
-        Debug.Log("SCORE = " + score);
-
         UpdateScoreUI();
     }
 
     private void UpdateScoreUI()
     {
         if (scoreText == null)
-        {
-            Debug.LogError("scoreText is NULL!");
+        {          
             return;
         }
 
-        scoreText.text = "Score: " + score;
-
-        Debug.Log(
-            "UI UPDATED: " + scoreText.text
-        );
+        scoreText.text = "Score: " + score;    
     }
 }
