@@ -218,8 +218,8 @@ MonoBehaviour:
     y: 0
     width: 862.4
     height: 459.2
-  m_MinSize: {x: 202, y: 226}
-  m_MaxSize: {x: 4002, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 15}
@@ -698,10 +698,13 @@ MonoBehaviour:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs:
-      - m_Data: 45538
+      - m_Data: 48722
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
+      - m_Data: -4472
+      - m_Data: -4194
+      - m_Data: -3296
       - m_Data: -1298
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1744,27 +1747,26 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs:
-    - m_Data: 49734
+    - m_Data: 49802
     m_LastClickedID:
-      m_Data: 49734
+      m_Data: 49802
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 49626
-    - m_Data: 49628
-    - m_Data: 49630
-    - m_Data: 49632
-    - m_Data: 49634
-    - m_Data: 49636
-    - m_Data: 49638
-    - m_Data: 49640
-    - m_Data: 49642
-    - m_Data: 49644
-    - m_Data: 49646
-    - m_Data: 49648
-    - m_Data: 49734
-    - m_Data: 49756
-    - m_Data: 49850
-    - m_Data: 49852
+    - m_Data: 49576
+    - m_Data: 49578
+    - m_Data: 49580
+    - m_Data: 49582
+    - m_Data: 49584
+    - m_Data: 49586
+    - m_Data: 49588
+    - m_Data: 49590
+    - m_Data: 49592
+    - m_Data: 49594
+    - m_Data: 49596
+    - m_Data: 49598
+    - m_Data: 49600
+    - m_Data: 49602
+    - m_Data: 49604
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1798,18 +1800,21 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 49626
-    - m_Data: 49628
-    - m_Data: 49630
-    - m_Data: 49632
-    - m_Data: 49634
-    - m_Data: 49636
-    - m_Data: 49638
-    - m_Data: 49640
-    - m_Data: 49642
-    - m_Data: 49644
-    - m_Data: 49646
-    - m_Data: 49648
+    - m_Data: 49576
+    - m_Data: 49578
+    - m_Data: 49580
+    - m_Data: 49582
+    - m_Data: 49584
+    - m_Data: 49586
+    - m_Data: 49588
+    - m_Data: 49590
+    - m_Data: 49592
+    - m_Data: 49594
+    - m_Data: 49596
+    - m_Data: 49598
+    - m_Data: 49600
+    - m_Data: 49602
+    - m_Data: 49604
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1837,8 +1842,8 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: 45538
-    m_LastClickedInstanceID: 45538
+    - m_Data: 48722
+    m_LastClickedInstanceID: 48722
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs:
     - m_Data: -50630
